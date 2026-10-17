@@ -1,0 +1,42 @@
+{
+  "name" : "Glue_ETL_project",
+  "jobMode" : "VISUAL",
+  "description" : "",
+  "role" : "arn:aws:iam::294417174638:role/crawler",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "glueetl",
+    "scriptLocation" : "s3://aws-glue-assets-294417174638-eu-north-1/scripts/Glue_ETL_project.py",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--enable-metrics" : "",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://aws-glue-assets-294417174638-eu-north-1/sparkHistoryLogs/",
+    "--enable-job-insights" : "true",
+    "--enable-observability-metrics" : "true",
+    "--conf" : "spark.eventLog.rolling.enabled=true --conf spark.sql.catalog.glue_catalog.glue.skip-name-validation=true",
+    "--enable-glue-datacatalog" : "",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--job-bookmark-option" : "job-bookmark-enable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-294417174638-eu-north-1/temporary/",
+    "--enable-auto-scaling" : "true"
+  },
+  "maxRetries" : 0,
+  "allocatedCapacity" : 2,
+  "timeout" : 480,
+  "maxCapacity" : 2.0,
+  "glueVersion" : "5.1",
+  "numberOfWorkers" : 2,
+  "workerType" : "G.1X",
+  "codeGenConfigurationNodes" : "{\"node-1792228178537\":{\"ApplyMapping\":{\"Inputs\":[\"node-1792228140050\"],\"Mapping\":[{\"Dropped\":false,\"FromPath\":[\"orderid\"],\"FromType\":\"string\",\"ToKey\":\"orderid\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"customer\"],\"FromType\":\"string\",\"ToKey\":\"customer\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"item\"],\"FromType\":\"string\",\"ToKey\":\"item\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"quantity\"],\"FromType\":\"string\",\"ToKey\":\"quantity\",\"ToType\":\"bigint\"},{\"Dropped\":false,\"FromPath\":[\"price\"],\"FromType\":\"string\",\"ToKey\":\"price\",\"ToType\":\"double\"},{\"Dropped\":false,\"FromPath\":[\"orderdate\"],\"FromType\":\"string\",\"ToKey\":\"orderdate\",\"ToType\":\"string\"}],\"Name\":\"Change Schema\"}},\"node-1792228217926\":{\"S3GlueParquetTarget\":{\"AutoDataQuality\":{\"EvaluationContext\":\"EvaluateDataQuality_node1792228103784\",\"IsEnabled\":false},\"Compression\":\"snappy\",\"Inputs\":[\"node-1792228189421\"],\"Name\":\"Amazon S3\",\"NumberTargetPartitions\":\"0\",\"PartitionKeys\":[[\"item\"]],\"Path\":\"s3://aws-glue-e2e-pipeline/partitioning_demo/\",\"SchemaChangePolicy\":{\"EnableUpdateCatalog\":false}}},\"node-1792228140050\":{\"S3CsvSource\":{\"AdditionalOptions\":{\"EnableSamplePath\":false,\"SamplePath\":\"s3://sourcefororder/order_new.csv\"},\"Escaper\":\"\",\"Exclusions\":[],\"Name\":\"Amazon S3\",\"OptimizePerformance\":false,\"OutputSchemas\":[{\"Columns\":[{\"Name\":\"orderid\",\"Type\":\"string\"},{\"Name\":\"customer\",\"Type\":\"string\"},{\"Name\":\"item\",\"Type\":\"string\"},{\"Name\":\"quantity\",\"Type\":\"string\"},{\"Name\":\"price\",\"Type\":\"string\"},{\"Name\":\"orderdate\",\"Type\":\"string\"}]}],\"Paths\":[\"s3://sourcefororder\"],\"QuoteChar\":\"quote\",\"Recurse\":true,\"Separator\":\"comma\",\"WithHeader\":true}},\"node-1792228189421\":{\"SparkSQL\":{\"Inputs\":[\"node-1792228165725\"],\"Name\":\"SQL Query\",\"SqlAliases\":[{\"Alias\":\"myDataSource\",\"From\":\"node-1792228165725\"}],\"SqlQuery\":\"select * from myDataSource\"}},\"node-1792228165725\":{\"DropDuplicates\":{\"Columns\":[],\"Inputs\":[\"node-1792228178537\"],\"Name\":\"Drop Duplicates\"}},\"node-1792228204341\":{\"S3CatalogTarget\":{\"Database\":\"glue_database\",\"Inputs\":[\"node-1792228189421\"],\"Name\":\"AWS Glue Data Catalog\",\"PartitionKeys\":[],\"SchemaChangePolicy\":{\"EnableUpdateCatalog\":false},\"Table\":\"incremental\"}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "Automated-AWS-Data-Pipeline-Using-Amazon-S3-AWS-Lambda-AWS-Glue",
+    "branch" : "main",
+    "folder" : "glue"
+  }
+}
