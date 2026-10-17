@@ -1,0 +1,74 @@
+Project: Automated AWS Data Pipeline Using Amazon S3, AWS Lambda & AWS Glue
+
+1. Project Overview
+Developed an automated data pipeline using AWS services to process e-commerce order data.
+Used Amazon S3 to store input CSV files and processed output data.
+Used AWS Lambda to trigger an AWS Glue ETL job when a new file is uploaded to S3.
+Used AWS Glue Studio to build a visual ETL workflow for data cleaning and transformation.
+Stored the processed data in Amazon S3 and used AWS Glue Data Catalog to manage dataset metadata.
+
+2. AWS Services Used
+Amazon S3: Stores input CSV files and processed output data.
+AWS Lambda: Triggers the AWS Glue ETL job when a new file is uploaded to S3.
+AWS Glue: Performs ETL operations, including schema mapping, duplicate removal, and SQL transformations.
+AWS Glue Data Catalog: Stores metadata about datasets, including table schemas and data locations.
+Amazon Athena: Can be used to query the processed data using SQL.
+
+3. AWS Glue ETL Workflow — What I Implemented
+Step 1: Amazon S3 Data Source
+Configured Amazon S3 as the source of the ETL workflow.
+Read e-commerce order data from CSV files stored in S3.
+Passed the source data to the subsequent transformation steps.
+
+Step 2: Change Schema
+Used the Change Schema transformation in AWS Glue Studio.
+Mapped source columns to the target schema.
+Configured appropriate data types for columns.
+Kept columns such as orderid, customer, and item as strings.
+Configured quantity as bigint and price as double.
+
+Step 3: Drop Duplicates
+Used the Drop Duplicates transformation to remove duplicate records.
+Helped improve data quality by eliminating duplicate data according to the configured columns.
+
+Step 4: SQL Query
+Used the SQL Query transformation to apply business rules to the data.
+Applied a filter to select records where price > 1000, if this is the query currently configured in the job.
+Passed the filtered results to the output destinations.
+
+Step 5: Amazon S3 Output
+Configured an Amazon S3 target to store the transformed data.
+Used S3 as the destination for processed data.
+Organized output data in the configured S3 location.
+
+Step 6: AWS Glue Data Catalog
+Configured an AWS Glue Data Catalog target.
+Used the Data Catalog to manage dataset metadata, including the table schema and data location.
+Prepared the dataset for discovery and querying by compatible analytics services.
+
+4. AWS Lambda Automation
+Created a Lambda function named glue_trigger_s3.
+Used Python and the AWS SDK for Python (boto3).
+Configured the function to start the AWS Glue job named Glue_ETL_project.
+Designed the pipeline to respond automatically to new S3 object uploads through an S3 event notification.
+Connected the storage and ETL services to reduce the need for manual job execution.
+
+5. Data Flow
+Upload an input CSV file to Amazon S3.
+S3 sends an object creation event to AWS Lambda.
+Lambda starts the AWS Glue ETL job.
+Glue reads the source data.
+Glue applies schema mapping and removes duplicates.
+Glue runs the SQL transformation.
+Glue writes the processed data to the configured S3 and Data Catalog destinations.
+
+6. Skills Gained
+AWS cloud services integration.
+ETL pipeline development.
+AWS Glue Studio visual workflows.
+Data cleaning and duplicate removal.
+Schema mapping and data type management.
+SQL-based data transformation.
+Event-driven automation using AWS Lambda.
+Amazon S3 data lake storage.
+AWS Glue Data Catalog and dataset metadata management.
